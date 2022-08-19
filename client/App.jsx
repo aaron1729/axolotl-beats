@@ -4,8 +4,8 @@ import { HashRouter as Router, Route, Routes } from 'react-router-dom';
 import LoginPage from './components/LoginPage.jsx';
 import PlaylistPage from './components/PlaylistPage.jsx';
 import EmbeddedPlayer from './components/EmbeddedPlayer.jsx';
-import { AuthProvider, useAuth } from './components/AuthContext.jsx'
-import Nav from './components/Nav.jsx'
+import { AuthProvider, useAuth } from './components/AuthContext.jsx';
+import Nav from './components/Nav.jsx';
 
 import './stylesheets/styles.scss';
 import './stylesheets/app.css';
@@ -37,7 +37,6 @@ import './stylesheets/app.css';
 //   console.log('this.state in render', this.state.playlistId);
 
 function App() {
-  
   const [playlistId, setplaylistId] = useState('Initial value');
   // AMG (wed. 5pm): could also include as state a 'custom_parameter_names' array, e.g. ['danciness', 'speechiness']. then, update the function definition remixBreakpointsAndSegmentDataIntoAnArrForServer to be a little cleaner.
 
@@ -45,22 +44,22 @@ function App() {
     {
       minute: 0, // the starting breakpoint-object will ALWAYS have its minute-value equal to 0, and the user cannot change this
       bpm: 60,
-      custom_params: { danciness: 0.5 },
+      custom_params: { danciness: 0.5, speechiness: 0.5 },
     },
     {
       minute: 45,
       bpm: 120,
-      custom_params: { danciness: 0.8 },
+      custom_params: { danciness: 0.8, speechiness: 0.6 },
     },
     {
       minute: 80,
       bpm: 130,
-      custom_params: { danciness: 0.9 },
+      custom_params: { danciness: 0.9, speechiness: 0.7 },
     },
     {
       minute: 95,
       bpm: 150,
-      custom_params: { danciness: 1 },
+      custom_params: { danciness: 1, speechiness: 1 },
     },
   ]);
 
@@ -83,33 +82,33 @@ function App() {
     <Router>
       <AuthProvider>
         <div id='app'>
-        <Nav/>
-        <div id='title'>
-          <div id='name'>Axolotl Beats</div>
-          <div id='slogan'>beats forEach</div>
+          <Nav />
+          <div id='title'>
+            <div id='name'>Axolotl Beats</div>
+            <div id='slogan'>beats forEach</div>
+          </div>
+          <Routes>
+            <Route path='/' element={<LoginPage />}></Route>
+            <Route
+              path='/player'
+              element={<EmbeddedPlayer playlistId={playlistId} />}
+            ></Route>
+            <Route
+              path='/playlistform'
+              element={
+                <PlaylistPage
+                  setplaylistId={setplaylistId}
+                  loading={loading}
+                  setLoading={setLoading}
+                  breakpointsArr={breakpointsArr}
+                  setbreakpointsArr={setbreakpointsArr}
+                  segmentsArr={segmentsArr}
+                  setSegmentsArr={setSegmentsArr}
+                />
+              }
+            ></Route>
+          </Routes>
         </div>
-        <Routes>
-          <Route path='/' element={<LoginPage />}></Route>
-          <Route
-            path='/player'
-            element={<EmbeddedPlayer playlistId={playlistId} />}
-          ></Route>
-          <Route
-            path='/playlistform'
-            element={
-              <PlaylistPage
-                setplaylistId={setplaylistId}
-                loading={loading}
-                setLoading={setLoading}
-                breakpointsArr={breakpointsArr}
-                setbreakpointsArr={setbreakpointsArr}
-                segmentsArr={segmentsArr}
-                setSegmentsArr={setSegmentsArr}
-              />
-            }
-          ></Route>
-        </Routes>
-      </div>
       </AuthProvider>
     </Router>
   );

@@ -85,18 +85,18 @@ const PlaylistPage = (props) => {
     }
   });
 
-
-if (loading) {
-  return (
-    <div className='h-screen flex flex-col justify-center content-center'>
-      <div class='text-5xl text-center'>Your Playlist is Loading...</div>
-      <div class='h-1/5 mx-auto loader --1'></div>
-    </div>
-  );
-} else {return (
-    <div id='formPage'>
-      <h1>Fill out the form below to generate a new playlist</h1>
-      <div className='flex flex-col lg:flex-row lg:flex-row w-screen justify-center content-center'>
+  if (loading) {
+    return (
+      <div className='h-screen flex flex-col justify-center content-center'>
+        <div class='text-5xl text-center'>Your Playlist is Loading...</div>
+        <div class='h-1/5 mx-auto loader --1'></div>
+      </div>
+    );
+  } else {
+    return (
+      <div id='formPage'>
+        <h1>Fill out the form below to generate a new playlist</h1>
+        <div className='flex flex-col lg:flex-row lg:flex-row w-screen justify-center content-center'>
           <div className='w-screen lg:w-5/12 p-5'>
             <BPMPlot breakpointsArr={breakpointsArr} />
           </div>
@@ -104,73 +104,78 @@ if (loading) {
             <CustomParamsPlot breakpointsArr={breakpointsArr} />
           </div>
         </div>
-      {result}
-      {/* placeholder for Spotify component with iFrame */}
-      <button
-        type='button' onClick={() => {
-          // add a new breakpoint-object to breakpointsArr, which is a copy of the last breakpoint-object but with its minute property incremented by 30
-          let newBreakpointsArr = [...breakpointsArr];
-          const lastBreakpointObj = breakpointsArr[breakpointsArr.length - 1];
-          const newBreakpointObj = Object.assign({}, lastBreakpointObj);
-          newBreakpointObj.minute += 30;
-          newBreakpointsArr.push(newBreakpointObj);
-          setbreakpointsArr(newBreakpointsArr);
-          // add a new segment-object to segmentsArr, which is a copy of the last segment-object
-          let newSegmentsArr = [...segmentsArr];
-          const lastSegmentObj = segmentsArr[segmentsArr.length - 1];
-          const newSegmentObj = Object.assign({}, lastSegmentObj);
-          newSegmentsArr.push(newSegmentObj);
-          setSegmentsArr(newSegmentsArr);
-        }}
-      >
-        Add a segment!
-      </button>
-      <br />
-      <button type ="button" onClick={() => {
-        let newBreakpointsArr = [...breakpointsArr];
-        if (newBreakpointsArr.length > 2) {
-          newBreakpointsArr.pop()
-        }
-        setbreakpointsArr(newBreakpointsArr);
-        let newSegmentsArr = [...segmentsArr];
-        if (newSegmentsArr.length > 1) {
-          newSegmentsArr.pop()
-        }
-        setSegmentsArr(newSegmentsArr);
-      }}>
-        Delete a segment!
-      </button>
-      <br />
-      <button
-        type='button'
-        onClick={() => {
-          setLoading(true);
-          fetch('/api/getDynamicPlaylist', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              playlistName: 'our beautiful playlist',
-              segments: remixBreakpointsAndSegmentDataIntoAnArrForServer(
-                breakpointsArr,
-                segmentsArr
-              ),
-            }),
-          })
-            .then((res) => res.json())
-            .then((data) => {
-              setLoading(false);
-              console.log(data);
+        {result}
+        {/* placeholder for Spotify component with iFrame */}
+        <button
+          type='button'
+          onClick={() => {
+            // add a new breakpoint-object to breakpointsArr, which is a copy of the last breakpoint-object but with its minute property incremented by 30
+            let newBreakpointsArr = [...breakpointsArr];
+            const lastBreakpointObj = breakpointsArr[breakpointsArr.length - 1];
+            const newBreakpointObj = Object.assign({}, lastBreakpointObj);
+            newBreakpointObj.minute += 30;
+            newBreakpointsArr.push(newBreakpointObj);
+            setbreakpointsArr(newBreakpointsArr);
+            // add a new segment-object to segmentsArr, which is a copy of the last segment-object
+            let newSegmentsArr = [...segmentsArr];
+            const lastSegmentObj = segmentsArr[segmentsArr.length - 1];
+            const newSegmentObj = Object.assign({}, lastSegmentObj);
+            newSegmentsArr.push(newSegmentObj);
+            setSegmentsArr(newSegmentsArr);
+          }}
+        >
+          Add a segment!
+        </button>
+        <br />
+        <button
+          type='button'
+          onClick={() => {
+            let newBreakpointsArr = [...breakpointsArr];
+            if (newBreakpointsArr.length > 2) {
+              newBreakpointsArr.pop();
+            }
+            setbreakpointsArr(newBreakpointsArr);
+            let newSegmentsArr = [...segmentsArr];
+            if (newSegmentsArr.length > 1) {
+              newSegmentsArr.pop();
+            }
+            setSegmentsArr(newSegmentsArr);
+          }}
+        >
+          Delete a segment!
+        </button>
+        <br />
+        <button
+          type='button'
+          onClick={() => {
+            setLoading(true);
+            fetch('/api/getDynamicPlaylist', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                playlistName: 'What is an Axolotl',
+                playlistDescription: 'Created by Axolotl',
+                segments: remixBreakpointsAndSegmentDataIntoAnArrForServer(
+                  breakpointsArr,
+                  segmentsArr
+                ),
+              }),
             })
-            .catch((err) => console.log(err));
-        }}
-      >
-        Create my playlist!
-      </button>
-    </div>
-    )
+              .then((res) => res.json())
+              .then((data) => {
+                setLoading(false);
+                console.log(data);
+              })
+              .catch((err) => console.log(err));
+          }}
+        >
+          Create my playlist!
+        </button>
+      </div>
+    );
   }
-}
+};
 
 export default PlaylistPage;

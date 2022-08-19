@@ -26,7 +26,7 @@ function CustomParamsPlot(props) {
     const getParamCoords = breakpointsArr.map((element) => {
       return {
         x: element.minute,
-        y: element.custom_params[customParamsList[i]],
+        y: element.custom_params[customParamsList[i]] * 100,
       };
     });
 
