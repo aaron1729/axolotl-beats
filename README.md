@@ -20,10 +20,14 @@ PORT=3000 # or another port of your choice for the Express server
 
 # optional: define other REDIRECT_URIs to handle other redirects (e.g. for failed authentication)
 ```
-(These will automatically be processed as strings, and do *not* need to be put in quotation marks.) Since ```.env``` is in ```.gitignore``` and not published to Github, please make sure that you create ```.env``` locally for the app to work. Moreover, to test that this has worked, first add the line `console.log(process.env)` to the file `src/server/utils/apiWrapper.js` on line 5 and then (from the root directory) on the command line run `node src/server/utils/apiWrapper.js`. (You must run this command from the directory containing the `.env` file.)
+(These will automatically be processed as strings, and do *not* need to be put in quotation marks.) Since ```.env``` is in ```.gitignore``` and not published to Github, please make sure that you create ```.env``` locally for the app to work. Moreover, to test that this has worked, first add the line `console.log(process.env)` to the file `server/utils/apiWrapper.js` on line 5 and then (from the root directory) on the command line run `node server/utils/apiWrapper.js`. (You must run this command from the directory containing the `.env` file.)
+
+### To run the app in dev mode
+
+From the root directory, run `npm install`. Then, open a terminal and run `npm run dev` . Then, point your browser to `localhost:8080`.
+
 
 ### Resources
-
 
 * Our app uses the excellent [Spotify Web API Node](https://github.com/thelinmichael/spotify-web-api-node) library to make Spotify API calls. Please see the documentation for other available API methods.
 
