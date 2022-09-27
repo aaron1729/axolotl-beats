@@ -16,11 +16,11 @@
 CLIENT_ID=<your Client ID>
 CLIENT_SECRET=<your Client Secret>
 REDIRECT_URI=<your Redirect URI>
-PORT=3000 // or another port of your choice for the Express server
+PORT=3000 # or another port of your choice for the Express server
 
-// optional: define other REDIRECT_URIs to handle other redirects (e.g. for failed authentication)
+# optional: define other REDIRECT_URIs to handle other redirects (e.g. for failed authentication)
 ```
-Since ```.env``` is in ```.gitignore``` and not published to Github, please make sure that you create ```.env``` locally for the app to work.
+(These will automatically be processed as strings, and do *not* need to be put in quotation marks.) Since ```.env``` is in ```.gitignore``` and not published to Github, please make sure that you create ```.env``` locally for the app to work. Moreover, to test that this has worked, first add the line `console.log(process.env)` to the file `src/server/utils/apiWrapper.js` on line 5 and then (from the root directory) on the command line run `node src/server/utils/apiWrapper.js`. (You must run this command from the directory containing the `.env` file.)
 
 ### Resources
 
